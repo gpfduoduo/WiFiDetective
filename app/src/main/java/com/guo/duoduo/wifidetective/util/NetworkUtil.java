@@ -5,6 +5,7 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.nio.ByteOrder;
 import java.util.Enumeration;
 
 import android.content.Context;
@@ -53,6 +54,31 @@ public class NetworkUtil
             return null;
     }
 
+    /**
+     * 获取设备连接的网关的ip地址
+     * 
+     * @param context
+     * @return
+     */
+    public static String getGateWayIp(Context context)
+    {
+        String gatewayIp = null;
+        DhcpInfo dhcpInfo = getDhcpInfo(context);
+        if (dhcpInfo != null)
+        {
+            gatewayIp = Int2String(dhcpInfo.gateway);
+        }
+
+        Log.d(tag, "gate way ip = " + gatewayIp);
+        return gatewayIp;
+    }
+
+    /**
+     * 获取设备的mac地址
+     * 
+     * @param context
+     * @return
+     */
     public static String getLocalMac(Context context)
     {
         String localMac = null;
@@ -66,7 +92,12 @@ public class NetworkUtil
         return localMac;
     }
 
-    public static String getLocalIp(Context contenxt)
+    /**
+     * 获取设备的ip地址
+     * 
+     * @return
+     */
+    public static String getLocalIp()
     {
         String localIp = null;
 
@@ -95,5 +126,34 @@ public class NetworkUtil
         }
         Log.d(tag, "local ip = " + localIp);
         return localIp;
+    }
+
+    public final static String Int2String(int IP)
+    {
+        String ipStr = "";
+
+        if (ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN)
+        {
+            ipStr += String.valueOf(0xFF & IP);
+            ipStr += ".";
+            ipStr += String.valueOf(0xFF & IP >> 8);
+            ipStr += ".";
+            ipStr += String.valueOf(0xFF & IP >> 16);
+            ipStr += ".";
+            ipStr += String.valueOf(0xFF & IP >> 24);
+        }
+        else
+        {
+
+            ipStr += String.valueOf(0xFF & IP >> 24);
+            ipStr += ".";
+            ipStr += String.valueOf(0xFF & IP >> 16);
+            ipStr += ".";
+            ipStr += String.valueOf(0xFF & IP >> 8);
+            ipStr += ".";
+            ipStr += String.valueOf(0xFF & IP);
+        }
+
+        return ipStr;
     }
 }

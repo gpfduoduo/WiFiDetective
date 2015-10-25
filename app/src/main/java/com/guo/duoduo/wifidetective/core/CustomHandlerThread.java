@@ -1,4 +1,4 @@
-package com.guo.duoduo.wifidetective.sdk;
+package com.guo.duoduo.wifidetective.core;
 
 
 import java.lang.reflect.Constructor;

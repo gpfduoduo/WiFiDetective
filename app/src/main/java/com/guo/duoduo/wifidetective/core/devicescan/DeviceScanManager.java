@@ -1,4 +1,4 @@
-package com.guo.duoduo.wifidetective.sdk;
+package com.guo.duoduo.wifidetective.core.devicescan;
 
 
 import java.lang.ref.WeakReference;
@@ -6,6 +6,9 @@ import java.lang.ref.WeakReference;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+
+import com.guo.duoduo.wifidetective.core.CustomHandlerThread;
+import com.guo.duoduo.wifidetective.util.Constant;
 
 
 /**
@@ -37,15 +40,26 @@ public class DeviceScanManager
 
         mDeviceScanHandler = (DeviceScanHandler) mHandlerThread.getLooperHandler();
         mDeviceScanHandler.init(context);
+
+        mDeviceScanHandler.sendMessage(mDeviceScanHandler
+                .obtainMessage(Constant.MSG.START));
     }
 
     public void stopScan()
     {
         if (mHandlerThread != null)
         {
+            mDeviceScanHandler.sendMessage(mDeviceScanHandler
+                    .obtainMessage(Constant.MSG.STOP));
+
             mHandlerThread.quit();
             mHandlerThread = null;
         }
+    }
+
+    public DeviceScanManagerHandler getUIHandler()
+    {
+        return mUiHandler;
     }
 
     private static class DeviceScanManagerHandler extends Handler
