@@ -90,6 +90,7 @@ public class DeviceScanHandler extends Handler
             for (int i = 0; i < mScanList.size(); i++)
             {
                 netBios.setIp(mScanList.get(i));
+                netBios.setPort(Constant.NETBIOS_PORT);
                 netBios.send();
             }
         }

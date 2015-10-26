@@ -25,6 +25,7 @@ public class DeviceScanGroup implements Runnable
     private int mGroupIndex;
     public Thread mThread;
     private List<IP_MAC> mIpMacList = new ArrayList<>();
+    private DeviceScanTask[] mDeviceScanTaskArray = null;
 
     public DeviceScanGroup(DeviceScanHandler handler, int groupIndex)
     {
@@ -39,9 +40,17 @@ public class DeviceScanGroup implements Runnable
         {
             synchronized (this)
             {
-                for (int i = 0; i < mIpMacList.size(); i++)
+                if (mDeviceScanTaskArray != null)
                 {
-
+                    for (int i = 0; i < mDeviceScanTaskArray.length; i++)
+                    {
+                        if (mDeviceScanTaskArray[i] != null)
+                        {
+                            mDeviceScanTaskArray[i].mThread.interrupt();
+                            mDeviceScanTaskArray[i].mThread = null;
+                        }
+                    }
+                    mDeviceScanTaskArray = null;
                 }
             }
         }
@@ -57,6 +66,28 @@ public class DeviceScanGroup implements Runnable
         if (mIpMacList.size() == 0 || Thread.interrupted())
             return;
 
+        furtherScan();
+    }
+
+    private void furtherScan()
+    {
+        DeviceScanTask task;
+        IP_MAC ip_mac;
+        int taskNum = mIpMacList.size();
+        mDeviceScanTaskArray = new DeviceScanTask[taskNum];
+        for (int i = 0; i < taskNum; i++)
+        {
+            task = new DeviceScanTask(this);
+            if (mDeviceScanTaskArray != null)
+            {
+                ip_mac = mIpMacList.get(i);
+                task.mThread = new Thread(task.mRunnable);
+                task.setParams(ip_mac, mDeviceScanHandler);
+                task.mThread.setPriority(Thread.MAX_PRIORITY);
+                task.mThread.start();
+                mDeviceScanTaskArray[i] = task;
+            }
+        }
     }
 
     /**
@@ -91,7 +122,7 @@ public class DeviceScanGroup implements Runnable
                             IP_MAC ip_mac = new IP_MAC(ip, mac.toUpperCase(Locale.US));
                             Log.d(tag, "ip_mac = " + ip_mac.toString());
                             int index = mDeviceScanHandler.mIpMacInLan.indexOf(ip_mac);
-                            if (index != -1)
+                            if (index == -1)
                             {
                                 mIpMacList.add(ip_mac);
                                 mDeviceScanHandler.mIpMacInLan.add(ip_mac);

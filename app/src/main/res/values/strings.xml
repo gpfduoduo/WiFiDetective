@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">WiFiDetective</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_device_scan">DeviceScanActivity</string>
+
+    <string name="wifi_scan">WiFi扫描</string>
+    <string name="device_scan">设备扫描</string>
 </resources>
