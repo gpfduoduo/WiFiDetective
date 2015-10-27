@@ -1,6 +1,7 @@
 package com.guo.duoduo.wifidetective.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -43,8 +44,16 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem)
                     {
-                        menuItem.setChecked(true);
                         mDrawerLayout.closeDrawers();
+                        switch (menuItem.getItemId())
+                        {
+                            case R.id.nav_device_scan :
+                                startActivity(new Intent(MainActivity.this,
+                                    DeviceScanActivity.class));
+                                break;
+                            case R.id.nav_wifi_scan :
+                                break;
+                        }
                         return true;
                     }
                 });

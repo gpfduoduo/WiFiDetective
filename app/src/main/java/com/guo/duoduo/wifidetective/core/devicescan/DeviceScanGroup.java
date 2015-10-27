@@ -61,7 +61,7 @@ public class DeviceScanGroup implements Runnable
     {
         getIpMacFromFile();
         Log.d(tag, "device scan group: " + mGroupIndex + " find " + mIpMacList.size()
-            + "IP_MAC");
+            + " IP_MAC");
 
         if (mIpMacList.size() == 0 || Thread.interrupted())
             return;
@@ -74,6 +74,8 @@ public class DeviceScanGroup implements Runnable
         DeviceScanTask task;
         IP_MAC ip_mac;
         int taskNum = mIpMacList.size();
+        Log.d(tag, "task num = " + taskNum);
+
         mDeviceScanTaskArray = new DeviceScanTask[taskNum];
         for (int i = 0; i < taskNum; i++)
         {
