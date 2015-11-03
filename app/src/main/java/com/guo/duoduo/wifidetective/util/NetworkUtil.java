@@ -6,6 +6,8 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.nio.ByteOrder;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 
 import android.content.Context;
@@ -155,5 +157,14 @@ public class NetworkUtil
         }
 
         return ipStr;
+    }
+
+    private final static ArrayList<Integer> channelsFrequency = new ArrayList<Integer>(
+        Arrays.asList(0, 2412, 2417, 2422, 2427, 2432, 2437, 2442, 2447, 2452, 2457,
+                2462, 2467, 2472, 2484));
+
+    public static int getChannelFromFrequency(int frequency)
+    {
+        return channelsFrequency.indexOf(Integer.valueOf(frequency));
     }
 }

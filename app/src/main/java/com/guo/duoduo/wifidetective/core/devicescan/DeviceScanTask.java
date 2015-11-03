@@ -85,7 +85,7 @@ public class DeviceScanTask
 
     private boolean isAnyPortOk()
     {
-        int portArray[] = {80, 135, 139, 8081, 3389, 3511, 3526, 62078};
+        int portArray[] = {80, 135, 137, 139, 8081, 3389, 3511, 3526, 62078};
 
         Selector selector;
         try

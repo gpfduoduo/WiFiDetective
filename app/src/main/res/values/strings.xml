@@ -1,8 +1,13 @@
 <resources>
     <string name="app_name">WiFiDetective</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_device_scan">DeviceScanActivity</string>
+    <string name="title_activity_device_scan">设备扫描</string>
 
     <string name="wifi_scan">WiFi扫描</string>
     <string name="device_scan">设备扫描</string>
+    <string name="title_activity_wi_fi_scan">WiFi扫描</string>
+
+    <string name="main_slide_to_action">右滑进行操作</string>
+
+    <string name="net_error">网络错误！</string>
 </resources>

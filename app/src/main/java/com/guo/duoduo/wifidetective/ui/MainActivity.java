@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem)
                     {
-                        mDrawerLayout.closeDrawers();
+                        menuItem.setChecked(false);
                         switch (menuItem.getItemId())
                         {
                             case R.id.nav_device_scan :
@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity
                                     DeviceScanActivity.class));
                                 break;
                             case R.id.nav_wifi_scan :
+                                startActivity(new Intent(MainActivity.this,
+                                    WiFiScanActivity.class));
                                 break;
                         }
                         return true;
@@ -78,8 +80,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onDestroy()
+    public void onBackPressed()
     {
-        super.onDestroy();
+        if (mDrawerLayout.isDrawerOpen(findViewById(R.id.id_nv_menu)))
+            mDrawerLayout.closeDrawers();
+        else
+            super.onBackPressed();
     }
+
 }
