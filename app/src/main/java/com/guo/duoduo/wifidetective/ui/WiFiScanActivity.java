@@ -11,7 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
 import com.guo.duoduo.wifidetective.R;
-import com.guo.duoduo.wifidetective.receiver.WiFiBroadcastReceiver;
+import com.guo.duoduo.wifidetective.core.wifiscan.WiFiBroadcastReceiver;
 import com.guo.duoduo.wifidetective.util.Constant;
 import com.guo.duoduo.wifidetective.util.NetworkUtil;
 import com.guo.duoduo.wifidetective.util.ToastUtils;
@@ -84,7 +84,7 @@ public class WiFiScanActivity extends BaseActivity {
 
             switch (msg.what) {
                 case Constant.MSG.WIFI_SCAN_RESULT: {
-                    
+
                     activity.mWifiManager.startScan();//处理后冲洗扫描
                     break;
                 }

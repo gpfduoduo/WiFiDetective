@@ -1,4 +1,4 @@
-package com.guo.duoduo.wifidetective.receiver;
+package com.guo.duoduo.wifidetective.core.wifiscan;
 
 
 import java.util.Collections;
