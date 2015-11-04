@@ -29,6 +29,10 @@
         <activity
             android:name=".ui.WiFiScanActivity"
             android:label="@string/title_activity_wi_fi_scan"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.HotSpotActivity"
+            android:label="@string/title_activity_hot_spot"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

@@ -10,4 +10,5 @@
     <string name="main_slide_to_action">右滑进行操作</string>
 
     <string name="net_error">网络错误！</string>
+    <string name="title_activity_hot_spot">建立热点</string>
 </resources>
