@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -61,12 +62,31 @@ public class WiFiBroadcastReceiver extends BroadcastReceiver
                 for (ScanResult scanResult : mScanResult)
                 {
                     RouterInfo routerInfo = new RouterInfo();
+                    String capabilities = scanResult.capabilities;
+                    String security = "无";
+                    if (!TextUtils.isEmpty(capabilities))
+                    {
+                        if (capabilities.contains("WPA") || capabilities.contains("wpa"))
+                        {
+                            security = "WPA";
+                        }
+                        else if (capabilities.contains("WEP")
+                            || capabilities.contains("wep"))
+                        {
+                            security = "WEP";
+                        }
+                        else
+                        {
+                            security = "无";
+                        }
+                    }
                     routerInfo.mSsid = scanResult.SSID;
                     routerInfo.mMac = scanResult.BSSID;
                     routerInfo.mChannel = NetworkUtil
                             .getChannelFromFrequency(scanResult.frequency);
                     routerInfo.mStrength = WifiManager.calculateSignalLevel(
                         scanResult.level, 5);
+                    routerInfo.mSecurity = security;
 
                     RouterList routerList = mRoutersInDifferentChannel
                             .get(routerInfo.mChannel);

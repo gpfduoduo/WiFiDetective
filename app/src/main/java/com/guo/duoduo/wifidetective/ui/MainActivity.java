@@ -2,6 +2,7 @@ package com.guo.duoduo.wifidetective.ui;
 
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.guo.duoduo.wifidetective.R;
+import com.guo.duoduo.wifidetective.util.StatusBarCompat;
 
 
 public class MainActivity extends AppCompatActivity
@@ -25,14 +27,19 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        StatusBarCompat.compat(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.id_toolbar);
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT)
+            toolbar.setPadding(0, StatusBarCompat.getStatusBarHeight(this), 0, 0);
+
         setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.id_drawer_layout);
         mNavigationView = (NavigationView) findViewById(R.id.id_nv_menu);
-
-        final ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
         setupDrawerContent(mNavigationView);
     }
 
@@ -48,6 +55,7 @@ public class MainActivity extends AppCompatActivity
                         switch (menuItem.getItemId())
                         {
                             case R.id.nav_device_scan :
+                                menuItem.setChecked(false);
                                 startActivity(new Intent(MainActivity.this,
                                     DeviceScanActivity.class));
                                 break;

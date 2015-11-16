@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.guo.duoduo.wifidetective.R;
+import com.guo.duoduo.wifidetective.util.StatusBarCompat;
 
 
 public class HotSpotActivity extends BaseActivity
@@ -15,6 +16,8 @@ public class HotSpotActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hot_spot);
+        StatusBarCompat.compat(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

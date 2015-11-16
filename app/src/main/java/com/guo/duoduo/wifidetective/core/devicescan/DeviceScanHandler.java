@@ -10,6 +10,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.guo.duoduo.wifidetective.util.Constant;
@@ -49,6 +50,8 @@ public class DeviceScanHandler extends Handler
         mContext = context;
         String localIp = NetworkUtil.getLocalIp();
         String routerIp = NetworkUtil.getGateWayIp(mContext);
+        if (TextUtils.isEmpty(localIp) || TextUtils.isEmpty(routerIp))
+            return;
 
         mScanList.clear();
         String netIp = localIp.substring(0, localIp.lastIndexOf(".") + 1);

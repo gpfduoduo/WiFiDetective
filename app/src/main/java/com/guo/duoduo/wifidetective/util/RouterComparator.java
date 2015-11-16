@@ -12,7 +12,7 @@ import com.guo.duoduo.wifidetective.entity.RouterInfo;
 public class RouterComparator implements Comparator<Object>
 {
     /**
-     * 升序排列如果o1小于o2,返回一个负数;如果o1大于o2，返回一个正数;如果他们相等，则返回0;
+     * 升序排列 如果o1小于o2,返回一个负数;如果o1大于o2，返回一个正数;如果他们相等，则返回0;
      */
     @Override
     public int compare(Object o1, Object o2)

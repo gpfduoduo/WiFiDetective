@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import com.guo.duoduo.wifidetective.R;
 import com.guo.duoduo.wifidetective.core.devicescan.DeviceScanManager;
 import com.guo.duoduo.wifidetective.core.devicescan.DeviceScanResult;
+import com.guo.duoduo.wifidetective.util.StatusBarCompat;
 
 
 public class DeviceScanActivity extends BaseActivity
@@ -20,6 +21,9 @@ public class DeviceScanActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_scan);
+
+        StatusBarCompat.compat(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
