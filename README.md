@@ -8,4 +8,6 @@
 
 ### 设备扫描
 
-
+##引用库
+1 进度条来自代码家  
+https://github.com/daimajia/NumberProgressBar
