@@ -1,4 +1,4 @@
-package com.guo.duoduo.wifidetective.util;
+package com.guo.duoduo.wifidetective.ui.view;
 
 
 import android.app.Activity;

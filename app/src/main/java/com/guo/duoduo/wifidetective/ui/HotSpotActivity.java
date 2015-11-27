@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.guo.duoduo.wifidetective.R;
-import com.guo.duoduo.wifidetective.util.StatusBarCompat;
+import com.guo.duoduo.wifidetective.ui.view.StatusBarCompat;
 
 
 public class HotSpotActivity extends BaseActivity

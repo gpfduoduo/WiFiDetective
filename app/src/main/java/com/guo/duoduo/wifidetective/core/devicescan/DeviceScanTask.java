@@ -13,10 +13,11 @@ import java.nio.channels.SocketChannel;
 import android.util.Log;
 
 import com.guo.duoduo.wifidetective.entity.DeviceInfo;
+import com.guo.duoduo.wifidetective.util.Constant;
 
 
 /**
- * Created by 郭攀峰 on 2015/10/24.
+ * Created by 郭攀峰 on 2015/10/24. 针对确定的IP进行ping操作和端口（一些常用的端口）检测，看是否在线
  */
 public class DeviceScanTask
 {
@@ -50,8 +51,19 @@ public class DeviceScanTask
             if (isPingOk(mIpMac.mIp) || isAnyPortOk())
             {
                 Log.e(tag, "the device is in wifi : " + mIpMac.toString());
+                parseHostInfo(); //解析机器名称
+                if (mDeviceScanHandler != null)
+                {
+                    mDeviceScanHandler.sendMessage(mDeviceScanHandler.obtainMessage(
+                        Constant.MSG.SCAN_ONE, mIpMac));
+                }
             }
         }
+    }
+
+    private void parseHostInfo()
+    {
+
     }
 
     private boolean isPingOk(String ip)

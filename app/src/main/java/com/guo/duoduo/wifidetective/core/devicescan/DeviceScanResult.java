@@ -6,5 +6,5 @@ package com.guo.duoduo.wifidetective.core.devicescan;
  */
 public interface DeviceScanResult
 {
-    public void deviceScanResult();
+    public void deviceScanResult(IP_MAC ip_mac);
 }

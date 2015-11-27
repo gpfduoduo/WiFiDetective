@@ -82,8 +82,8 @@ public class WiFiBroadcastReceiver extends BroadcastReceiver
                     }
                     routerInfo.mSsid = scanResult.SSID;
                     routerInfo.mMac = scanResult.BSSID;
-                    routerInfo.mChannel = NetworkUtil
-                            .getChannelFromFrequency(scanResult.frequency);
+                    routerInfo.mFrequence = scanResult.frequency;
+                    routerInfo.mChannel = NetworkUtil.getChannel(scanResult.frequency);
                     routerInfo.mStrength = WifiManager.calculateSignalLevel(
                         scanResult.level, 5);
                     routerInfo.mSecurity = security;

@@ -1,6 +1,8 @@
 package com.guo.duoduo.wifidetective.ui;
 
 
+import java.net.UnknownHostException;
+
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,15 +12,18 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.guo.duoduo.wifidetective.R;
-import com.guo.duoduo.wifidetective.util.StatusBarCompat;
+import com.guo.duoduo.wifidetective.ui.view.StatusBarCompat;
+import com.guo.duoduo.wifidetective.util.NetworkUtil;
 
 
 public class MainActivity extends AppCompatActivity
 {
+    private static final String tag = MainActivity.class.getSimpleName();
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
 
@@ -41,6 +46,15 @@ public class MainActivity extends AppCompatActivity
         mDrawerLayout = (DrawerLayout) findViewById(R.id.id_drawer_layout);
         mNavigationView = (NavigationView) findViewById(R.id.id_nv_menu);
         setupDrawerContent(mNavigationView);
+
+        try
+        {
+            Log.d(tag, "广播地址: " + NetworkUtil.getBroadcastAddress(this).getHostAddress());
+        }
+        catch (UnknownHostException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     private void setupDrawerContent(NavigationView navigationView)
@@ -76,7 +90,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        getMenuInflater().inflate(R.menu.menu_drawer, menu);
+        //getMenuInflater().inflate(R.menu.menu_drawer, menu); //右上角不进入
         return true;
     }
 

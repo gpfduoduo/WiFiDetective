@@ -20,10 +20,9 @@ import com.guo.duoduo.wifidetective.core.wifiscan.WiFiBroadcastReceiver;
 import com.guo.duoduo.wifidetective.entity.RouterInfo;
 import com.guo.duoduo.wifidetective.entity.RouterList;
 import com.guo.duoduo.wifidetective.ui.adapter.WiFiScanAdapter;
-import com.guo.duoduo.wifidetective.ui.view.DividerDecoration;
 import com.guo.duoduo.wifidetective.util.Constant;
 import com.guo.duoduo.wifidetective.util.NetworkUtil;
-import com.guo.duoduo.wifidetective.util.StatusBarCompat;
+import com.guo.duoduo.wifidetective.ui.view.StatusBarCompat;
 import com.guo.duoduo.wifidetective.util.ToastUtils;
 
 

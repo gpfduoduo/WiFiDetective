@@ -44,10 +44,13 @@ public class DeviceScanHandler extends Handler
 
     private DeviceScanGroup[] mScanGroupArray = null;
     private int mGroupIndex;
+    private DeviceScanManager.DeviceScanManagerHandler mUiHandler;
 
-    public void init(Context context)
+    public void init(Context context, DeviceScanManager.DeviceScanManagerHandler uiHandler)
     {
         mContext = context;
+        mUiHandler = uiHandler;
+
         String localIp = NetworkUtil.getLocalIp();
         String routerIp = NetworkUtil.getGateWayIp(mContext);
         if (TextUtils.isEmpty(localIp) || TextUtils.isEmpty(routerIp))
@@ -75,7 +78,16 @@ public class DeviceScanHandler extends Handler
                 groupProcessing();
                 break;
             case Constant.MSG.SCAN_ONE :
-
+                IP_MAC ip_mac = (IP_MAC) msg.obj;
+                if (ip_mac != null)
+                {
+                    Log.d(tag, "scan one device: " + ip_mac.toString());
+                    if (mUiHandler != null)
+                    {
+                        mUiHandler.sendMessage(mUiHandler.obtainMessage(
+                            Constant.MSG.SCAN_ONE, ip_mac));
+                    }
+                }
                 break;
             case Constant.MSG.STOP :
                 Log.d(tag, "receive message: stop scan");
@@ -84,6 +96,9 @@ public class DeviceScanHandler extends Handler
         }
     }
 
+    /**
+     * 发送包进行arp操作
+     */
     private void sendQueryPacket()
     {
         NetBios netBios = null;
@@ -104,6 +119,9 @@ public class DeviceScanHandler extends Handler
         netBios.close();
     }
 
+    /**
+     * 分3组进行网络操作：
+     */
     private void groupProcessing()
     {
         this.mIpMacInLan.clear();

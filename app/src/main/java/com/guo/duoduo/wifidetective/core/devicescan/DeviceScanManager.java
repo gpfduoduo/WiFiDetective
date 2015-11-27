@@ -39,7 +39,7 @@ public class DeviceScanManager
         mHandlerThread.isReady();
 
         mDeviceScanHandler = (DeviceScanHandler) mHandlerThread.getLooperHandler();
-        mDeviceScanHandler.init(context);
+        mDeviceScanHandler.init(context, mUiHandler);
 
         mDeviceScanHandler.sendMessage(mDeviceScanHandler
                 .obtainMessage(Constant.MSG.START));
@@ -62,7 +62,7 @@ public class DeviceScanManager
         return mUiHandler;
     }
 
-    private static class DeviceScanManagerHandler extends Handler
+    public static class DeviceScanManagerHandler extends Handler
     {
         private WeakReference<DeviceScanManager> weakReference;
 
@@ -77,7 +77,20 @@ public class DeviceScanManager
             DeviceScanManager manager = weakReference.get();
             if (manager == null)
                 return;
+            switch (msg.what)
+            {
+                case Constant.MSG.SCAN_ONE :
+                    if (manager.mScanResult != null)
+                    {
+                        IP_MAC ip_mac = (IP_MAC) msg.obj;
+                        if (ip_mac != null)
+                            manager.mScanResult.deviceScanResult(ip_mac);
 
+                    }
+                    break;
+                case Constant.MSG.SCAN_OVER :
+                    break;
+            }
         }
     }
 }

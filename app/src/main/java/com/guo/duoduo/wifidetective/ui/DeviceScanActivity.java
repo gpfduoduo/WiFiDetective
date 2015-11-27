@@ -1,20 +1,38 @@
 package com.guo.duoduo.wifidetective.ui;
 
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
+import com.daimajia.numberprogressbar.NumberProgressBar;
+import com.daimajia.numberprogressbar.OnProgressBarListener;
 import com.guo.duoduo.wifidetective.R;
 import com.guo.duoduo.wifidetective.core.devicescan.DeviceScanManager;
 import com.guo.duoduo.wifidetective.core.devicescan.DeviceScanResult;
-import com.guo.duoduo.wifidetective.util.StatusBarCompat;
+import com.guo.duoduo.wifidetective.core.devicescan.IP_MAC;
+import com.guo.duoduo.wifidetective.ui.adapter.DeviceScanAdapter;
+import com.guo.duoduo.wifidetective.ui.view.DividerDecoration;
+import com.guo.duoduo.wifidetective.ui.view.StatusBarCompat;
+import com.guo.duoduo.wifidetective.util.NetworkUtil;
 
 
-public class DeviceScanActivity extends BaseActivity
+public class DeviceScanActivity extends BaseActivity implements OnProgressBarListener
 {
-
+    private static final String tag = DeviceScanActivity.class.getSimpleName();
     private DeviceScanManager manager;
+    private RecyclerView mRecyclerView;
+    private NumberProgressBar mProgressbar;
+    private DeviceScanAdapter mAdapter;
+    private List<IP_MAC> mDeviceList = new ArrayList<IP_MAC>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -31,15 +49,54 @@ public class DeviceScanActivity extends BaseActivity
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
 
+        mProgressbar = (NumberProgressBar) findViewById(R.id.numberbar);
+        mProgressbar.setOnProgressBarListener(this);
+        mProgressbar.setProgress(0);
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        mProgressbar.incrementProgressBy(1);
+                    }
+                });
+            }
+        }, 1000, 100);
+
         manager = new DeviceScanManager();
         manager.startScan(getApplicationContext(), new DeviceScanResult()
         {
             @Override
-            public void deviceScanResult()
+            public void deviceScanResult(IP_MAC ip_mac)
             {
-
+                if (!mDeviceList.contains(ip_mac))
+                {
+                    mDeviceList.add(ip_mac);
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         });
+
+        mDeviceList.add(new IP_MAC(NetworkUtil.getLocalIp(), NetworkUtil
+                .getLocalMac(this)));
+        mRecyclerView = (RecyclerView) findViewById(R.id.device_recycleview);
+        mAdapter = new DeviceScanAdapter(this, mDeviceList);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.addItemDecoration(new DividerDecoration(this));
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onProgressChange(int current, int max)
+    {
+        if (current == max)
+            mProgressbar.setVisibility(View.GONE);
     }
 
     @Override

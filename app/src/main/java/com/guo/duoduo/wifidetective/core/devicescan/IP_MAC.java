@@ -6,8 +6,8 @@ package com.guo.duoduo.wifidetective.core.devicescan;
  */
 public class IP_MAC
 {
-    String mIp;
-    String mMac;
+    public String mIp;
+    public String mMac;
 
     public IP_MAC(String ip, String mac)
     {

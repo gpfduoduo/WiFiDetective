@@ -16,6 +16,7 @@ import android.util.Log;
 
 /**
  * Created by 郭攀峰 on 2015/10/24.
+ *
  */
 public class DeviceScanGroup implements Runnable
 {

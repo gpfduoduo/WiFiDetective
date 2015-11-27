@@ -11,4 +11,6 @@
 
     <string name="net_error">网络错误！</string>
     <string name="title_activity_hot_spot">建立热点</string>
+    <string name="ip_address">IP地址：%s</string>
+    <string name="mac_address">MAC地址：%s</string>
 </resources>
