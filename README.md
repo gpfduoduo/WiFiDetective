@@ -1,9 +1,11 @@
 # WiFiDetective
 
-## Fucntions
-1 Obtain all the WiFi info around you, etc, wifi ssid, wifi stength, wifi channel...   
-2 Create your androud phone as a WiFi hot spot, and display the connected devices    
-3 When you connect a WiFi, Scan all the devices info in the WiFi, etc, ip and mac...   
+## 功能和实现
+1 WiFi扫描：获取你的android设备能够扫描到的所有的WiFi设备，并返回基本信息：SSID、WiFi信号强度、信道以及加密方式  
+2 设备扫描：尽可能的获取所有你android设备所在的WiFi下的所有连接该WiFi的设备及其信心：IP和MAC  
+## 实现原理 
+### WiFi扫描
 
-## Notice
- The project is coding... thanks for staring and forking.
+### 设备扫描
+
+
