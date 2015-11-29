@@ -55,7 +55,8 @@ public class DeviceScanAdapter
                 mContext.getResources().getString(R.string.mac_address), ip_mac.mMac));
             if (ip_mac.mIp.equals(mLocalIp))
             {
-                holder.mDeviceName.setText(mContext.getString(R.string.your_phone));
+                holder.mDeviceName.setText(mContext.getString(R.string.your_phone) + " "
+                    + ip_mac.mDeviceName);
             }
             else if (ip_mac.mIp.equals(mGateIp))
             {

@@ -77,10 +77,6 @@ public class MainActivity extends AppCompatActivity
                                 startActivity(new Intent(MainActivity.this,
                                     WiFiScanActivity.class));
                                 break;
-                            case R.id.nav_hot_spot :
-                                startActivity(new Intent(MainActivity.this,
-                                    HotSpotActivity.class));
-                                break;
                         }
                         return true;
                     }

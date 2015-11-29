@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import com.guo.duoduo.wifidetective.R;
 import com.guo.duoduo.wifidetective.core.devicescan.DeviceScanManager;
 import com.guo.duoduo.wifidetective.core.devicescan.DeviceScanResult;
 import com.guo.duoduo.wifidetective.core.devicescan.IP_MAC;
+import com.guo.duoduo.wifidetective.core.devicescan.Manufacture;
 import com.guo.duoduo.wifidetective.ui.adapter.DeviceScanAdapter;
 import com.guo.duoduo.wifidetective.ui.view.DividerDecoration;
 import com.guo.duoduo.wifidetective.ui.view.StatusBarCompat;
@@ -85,7 +87,11 @@ public class DeviceScanActivity extends BaseActivity implements OnProgressBarLis
 
         String localIp = NetworkUtil.getLocalIp();
         String gateIp = NetworkUtil.getGateWayIp(this);
-        mDeviceList.add(new IP_MAC(localIp, NetworkUtil.getLocalMac(this)));
+        String localMac = NetworkUtil.getLocalMac(this);
+        IP_MAC myself = new IP_MAC(localIp, localMac);
+        myself.mManufacture = Build.MANUFACTURER;
+        myself.mDeviceName = Build.MODEL;
+        mDeviceList.add(myself);
         mRecyclerView = (RecyclerView) findViewById(R.id.device_recycleview);
         mAdapter = new DeviceScanAdapter(this, mDeviceList, localIp, gateIp);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
