@@ -10,9 +10,12 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 
+import android.text.TextUtils;
 import android.util.Log;
 
+import com.guo.duoduo.wifidetective.R;
 import com.guo.duoduo.wifidetective.entity.DeviceInfo;
+import com.guo.duoduo.wifidetective.ui.MainApplication;
 import com.guo.duoduo.wifidetective.util.Constant;
 
 
@@ -51,7 +54,35 @@ public class DeviceScanTask
             if (isPingOk(mIpMac.mIp) || isAnyPortOk())
             {
                 Log.e(tag, "the device is in wifi : " + mIpMac.toString());
-                parseHostInfo(); //解析机器名称
+                String manufacture = parseHostInfo(mIpMac.mMac); //解析机器名称
+                Log.e(tag, "device manufacture = " + manufacture);
+                if (!TextUtils.isEmpty(manufacture))
+                {
+                    mIpMac.mManufacture = manufacture;
+                }
+
+                try
+                {
+                    NetBios nb = new NetBios(mIpMac.mIp);
+                    String deviceName = nb.getNbName();
+                    Log.d(tag, "device name = " + deviceName);
+                    if (!TextUtils.isEmpty(deviceName))
+                    {
+                        mIpMac.mDeviceName = deviceName;
+                    }
+                    else
+                    {
+                        mIpMac.mDeviceName = MainApplication.getInstance().getResources()
+                                .getString(R.string.unknown);
+                    }
+                }
+                catch (IOException e)
+                {
+                    mIpMac.mDeviceName = MainApplication.getInstance().getResources()
+                            .getString(R.string.unknown);
+                    e.printStackTrace();
+                }
+
                 if (mDeviceScanHandler != null)
                 {
                     mDeviceScanHandler.sendMessage(mDeviceScanHandler.obtainMessage(
@@ -61,9 +92,10 @@ public class DeviceScanTask
         }
     }
 
-    private void parseHostInfo()
+    private String parseHostInfo(String mac)
     {
-
+        return Manufacture.getInstance().getManufacture(mac,
+            MainApplication.getInstance().getApplicationContext());
     }
 
     private boolean isPingOk(String ip)

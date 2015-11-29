@@ -13,4 +13,8 @@
     <string name="title_activity_hot_spot">建立热点</string>
     <string name="ip_address">IP地址：%s</string>
     <string name="mac_address">MAC地址：%s</string>
+    <string name="your_phone">本机</string>
+    <string name="gate_net">网关</string>
+    <string name="unknown">未知名称</string>
+    <string name="unknown_manufacture">未知厂商</string>
 </resources>

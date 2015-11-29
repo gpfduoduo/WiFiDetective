@@ -18,6 +18,7 @@ public abstract class UdpCommunicate
     private static final String tag = UdpCommunicate.class.getSimpleName();
 
     private byte[] mBuffer = new byte[1024];
+    private byte[] mBytes;
 
     private DatagramSocket mUdpSocket;
 
@@ -35,8 +36,8 @@ public abstract class UdpCommunicate
 
     protected void send() throws IOException
     {
-        mBuffer = getSendContent();
-        DatagramPacket dp = new DatagramPacket(mBuffer, mBuffer.length,
+        mBytes = getSendContent();
+        DatagramPacket dp = new DatagramPacket(mBytes, mBytes.length,
             InetAddress.getByName(getPeerIp()), getPort());
         mUdpSocket.send(dp);
     }

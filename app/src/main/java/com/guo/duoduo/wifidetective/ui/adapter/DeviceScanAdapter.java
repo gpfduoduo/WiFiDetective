@@ -24,11 +24,16 @@ public class DeviceScanAdapter
 
     private Context mContext;
     private List<IP_MAC> mDeviceList;
+    private String mLocalIp;
+    private String mGateIp;
 
-    public DeviceScanAdapter(Context context, List<IP_MAC> list)
+    public DeviceScanAdapter(Context context, List<IP_MAC> list, String localIp,
+            String gateip)
     {
         this.mContext = context;
         this.mDeviceList = list;
+        this.mLocalIp = localIp;
+        this.mGateIp = gateip;
     }
 
     @Override
@@ -48,6 +53,20 @@ public class DeviceScanAdapter
                 mContext.getResources().getString(R.string.ip_address), ip_mac.mIp));
             holder.mDeviceMac.setText(String.format(
                 mContext.getResources().getString(R.string.mac_address), ip_mac.mMac));
+            if (ip_mac.mIp.equals(mLocalIp))
+            {
+                holder.mDeviceName.setText(mContext.getString(R.string.your_phone));
+            }
+            else if (ip_mac.mIp.equals(mGateIp))
+            {
+                holder.mDeviceName.setText(mContext.getString(R.string.gate_net));
+            }
+            else
+            {
+                holder.mDeviceName.setText(ip_mac.mDeviceName);
+            }
+
+            holder.mDeviceManufacture.setText(ip_mac.mManufacture);
         }
     }
 
@@ -61,12 +80,17 @@ public class DeviceScanAdapter
     {
         TextView mDeviceIp;
         TextView mDeviceMac;
+        TextView mDeviceName;
+        TextView mDeviceManufacture;
 
         public DeviceHolder(View itemView)
         {
             super(itemView);
             mDeviceIp = (TextView) itemView.findViewById(R.id.device_ip);
             mDeviceMac = (TextView) itemView.findViewById(R.id.device_mac);
+            mDeviceName = (TextView) itemView.findViewById(R.id.device_name);
+            mDeviceManufacture = (TextView) itemView
+                    .findViewById(R.id.device_manufacture);
         }
     }
 }

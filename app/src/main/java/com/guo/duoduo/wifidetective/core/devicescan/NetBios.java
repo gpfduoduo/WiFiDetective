@@ -2,6 +2,9 @@ package com.guo.duoduo.wifidetective.core.devicescan;
 
 
 import java.io.IOException;
+import java.net.DatagramPacket;
+
+import android.util.Log;
 
 import com.guo.duoduo.wifidetective.util.Constant;
 
@@ -11,6 +14,7 @@ import com.guo.duoduo.wifidetective.util.Constant;
  */
 public class NetBios extends UdpCommunicate
 {
+    private static final String tag = NetBios.class.getSimpleName();
     private String mIP;
     private int mPort;
 
@@ -80,4 +84,27 @@ public class NetBios extends UdpCommunicate
         return t_ns;
     }
 
+    public String getNbName() throws IOException
+    {
+        byte[] data;
+
+        send();
+        DatagramPacket dp = receive();
+        data = dp.getData();
+
+        Log.d(tag, "net bios receive = " + new String(data));
+        if (data.length > 56)
+        {
+            StringBuffer str = new StringBuffer(15);
+            for (int i = 1; i < 16; i++)
+            {
+                str.append((char) (0xFF & data[56 + i]));
+            }
+
+            close();
+            return str.toString().trim();
+        }
+
+        return null;
+    }
 }

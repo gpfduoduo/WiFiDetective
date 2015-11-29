@@ -83,10 +83,11 @@ public class DeviceScanActivity extends BaseActivity implements OnProgressBarLis
             }
         });
 
-        mDeviceList.add(new IP_MAC(NetworkUtil.getLocalIp(), NetworkUtil
-                .getLocalMac(this)));
+        String localIp = NetworkUtil.getLocalIp();
+        String gateIp = NetworkUtil.getGateWayIp(this);
+        mDeviceList.add(new IP_MAC(localIp, NetworkUtil.getLocalMac(this)));
         mRecyclerView = (RecyclerView) findViewById(R.id.device_recycleview);
-        mAdapter = new DeviceScanAdapter(this, mDeviceList);
+        mAdapter = new DeviceScanAdapter(this, mDeviceList, localIp, gateIp);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addItemDecoration(new DividerDecoration(this));
         mRecyclerView.setAdapter(mAdapter);

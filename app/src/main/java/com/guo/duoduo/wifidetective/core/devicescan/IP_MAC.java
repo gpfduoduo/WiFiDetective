@@ -8,6 +8,8 @@ public class IP_MAC
 {
     public String mIp;
     public String mMac;
+    public String mManufacture;
+    public String mDeviceName;
 
     public IP_MAC(String ip, String mac)
     {
