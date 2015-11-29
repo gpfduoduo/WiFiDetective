@@ -6,10 +6,12 @@
     <string name="wifi_scan">WiFi扫描</string>
     <string name="device_scan">设备扫描</string>
     <string name="title_activity_wi_fi_scan">WiFi扫描</string>
+    <string name="tool_ping">Ping</string>
 
-    <string name="main_slide_to_action">右滑进行操作</string>
+    <string name="main_slide_to_action">您还可以右滑进行操作</string>
 
     <string name="net_error">网络错误！</string>
+    <string name="connect_wifi_please">请连接WiFi!</string>
     <string name="title_activity_hot_spot">建立热点</string>
     <string name="ip_address">IP地址：%s</string>
     <string name="mac_address">MAC地址：%s</string>
@@ -17,4 +19,5 @@
     <string name="gate_net">网关</string>
     <string name="unknown">未知名称</string>
     <string name="unknown_manufacture">未知厂商</string>
+    <string name="title_activity_ping">Ping</string>
 </resources>

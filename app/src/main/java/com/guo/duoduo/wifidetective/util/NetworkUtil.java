@@ -1,13 +1,6 @@
 package com.guo.duoduo.wifidetective.util;
 
 
-import android.content.Context;
-import android.net.DhcpInfo;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-import android.util.Log;
-import android.util.SparseArray;
-
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -18,6 +11,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.DhcpInfo;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.util.Log;
+import android.util.SparseArray;
+
 
 /**
  * 关于频率和信道
@@ -26,35 +28,58 @@ import java.util.Enumeration;
  * <p/>
  * Created by 郭攀峰 on 2015/10/20.
  */
-public class NetworkUtil {
+public class NetworkUtil
+{
 
     private static final String tag = NetworkUtil.class.getSimpleName();
 
-    public static WifiInfo getWifiInfo(Context context) {
+    public static boolean isWifiConnected(Context context)
+    {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifiNetworkInfo = connectivityManager
+                .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (wifiNetworkInfo.isConnected())
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static WifiInfo getWifiInfo(Context context)
+    {
         WifiManager wifiManager = getWifiManager(context);
-        if (wifiManager != null) {
+        if (wifiManager != null)
+        {
             WifiInfo wifiInfo = wifiManager.getConnectionInfo();
             return wifiInfo;
-        } else
+        }
+        else
             return null;
     }
 
-    public static WifiManager getWifiManager(Context context) {
+    public static WifiManager getWifiManager(Context context)
+    {
         WifiManager wifiManager = (WifiManager) context
                 .getSystemService(Context.WIFI_SERVICE);
         return wifiManager;
     }
 
-    public static DhcpInfo getDhcpInfo(Context context) {
+    public static DhcpInfo getDhcpInfo(Context context)
+    {
         WifiManager wifiManager = getWifiManager(context);
-        if (wifiManager != null) {
+        if (wifiManager != null)
+        {
             DhcpInfo dhcpInfo = wifiManager.getDhcpInfo();
             return dhcpInfo;
-        } else
+        }
+        else
             return null;
     }
 
-    public static String getCurrentSsid(Context context) {
+    public static String getCurrentSsid(Context context)
+    {
         WifiInfo wifiInfo = getWifiInfo(context);
         if (wifiInfo != null)
             return wifiInfo.getSSID();
@@ -68,10 +93,12 @@ public class NetworkUtil {
      * @param context
      * @return
      */
-    public static String getGateWayIp(Context context) {
+    public static String getGateWayIp(Context context)
+    {
         String gatewayIp = null;
         DhcpInfo dhcpInfo = getDhcpInfo(context);
-        if (dhcpInfo != null) {
+        if (dhcpInfo != null)
+        {
             gatewayIp = Int2String(dhcpInfo.gateway);
         }
 
@@ -85,10 +112,12 @@ public class NetworkUtil {
      * @param context
      * @return
      */
-    public static String getLocalMac(Context context) {
+    public static String getLocalMac(Context context)
+    {
         String localMac = null;
         WifiInfo wifiInfo = getWifiInfo(context);
-        if (wifiInfo != null) {
+        if (wifiInfo != null)
+        {
             localMac = wifiInfo.getMacAddress();
         }
 
@@ -104,16 +133,18 @@ public class NetworkUtil {
      * @throws UnknownHostException
      */
     public static InetAddress getBroadcastAddress(Context context)
-            throws UnknownHostException {
+            throws UnknownHostException
+    {
         DhcpInfo dhcpInfo = getDhcpInfo(context);
-        if (dhcpInfo == null) {
+        if (dhcpInfo == null)
+        {
             return InetAddress.getByName("255.255.255.255");
         }
         int broadcast = (dhcpInfo.ipAddress & dhcpInfo.netmask) | ~dhcpInfo.netmask;
         byte[] quads = new byte[4];
         for (int k = 0; k < 4; k++)
             quads[k] = (byte) ((broadcast >> k * 8) & 0xFF);
-        
+
         return InetAddress.getByAddress(quads);
     }
 
@@ -122,34 +153,43 @@ public class NetworkUtil {
      *
      * @return
      */
-    public static String getLocalIp() {
+    public static String getLocalIp()
+    {
         String localIp = null;
 
-        try {
+        try
+        {
             Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces();
-            while (en.hasMoreElements()) {
+            while (en.hasMoreElements())
+            {
                 NetworkInterface networkInterface = en.nextElement();
                 Enumeration<InetAddress> inetAddresses = networkInterface
                         .getInetAddresses();
-                while (inetAddresses.hasMoreElements()) {
+                while (inetAddresses.hasMoreElements())
+                {
                     InetAddress inetAddress = inetAddresses.nextElement();
                     if (!inetAddress.isLoopbackAddress()
-                            && inetAddress instanceof Inet4Address) {
+                        && inetAddress instanceof Inet4Address)
+                    {
                         localIp = inetAddress.getHostAddress();
                     }
                 }
             }
-        } catch (SocketException e) {
+        }
+        catch (SocketException e)
+        {
             e.printStackTrace();
         }
         Log.d(tag, "local ip = " + localIp);
         return localIp;
     }
 
-    public final static String Int2String(int IP) {
+    public final static String Int2String(int IP)
+    {
         String ipStr = "";
 
-        if (ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN) {
+        if (ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN)
+        {
             ipStr += String.valueOf(0xFF & IP);
             ipStr += ".";
             ipStr += String.valueOf(0xFF & IP >> 8);
@@ -157,7 +197,9 @@ public class NetworkUtil {
             ipStr += String.valueOf(0xFF & IP >> 16);
             ipStr += ".";
             ipStr += String.valueOf(0xFF & IP >> 24);
-        } else {
+        }
+        else
+        {
 
             ipStr += String.valueOf(0xFF & IP >> 24);
             ipStr += ".";
@@ -172,12 +214,13 @@ public class NetworkUtil {
     }
 
     private final static ArrayList<Integer> channelsFrequency = new ArrayList<Integer>(
-            Arrays.asList(0, 2412, 2417, 2422, 2427, 2432, 2437, 2442, 2447, 2452, 2457,
-                    2462, 2467, 2472, 2484));
+        Arrays.asList(0, 2412, 2417, 2422, 2427, 2432, 2437, 2442, 2447, 2452, 2457,
+            2462, 2467, 2472, 2484));
 
     private static SparseArray<Integer> mChannelFrequency = new SparseArray<>();
 
-    static {
+    static
+    {
         mChannelFrequency.put(1, 2412);
         mChannelFrequency.put(2, 2417);
         mChannelFrequency.put(3, 2422);
@@ -224,7 +267,8 @@ public class NetworkUtil {
      * @param frequency 频率
      * @return
      */
-    public static int getChannelFromFrequency(int frequency) {
+    public static int getChannelFromFrequency(int frequency)
+    {
         return channelsFrequency.indexOf(Integer.valueOf(frequency));
     }
 
@@ -234,9 +278,12 @@ public class NetworkUtil {
      * @param frequency
      * @return
      */
-    public static int getChannel(int frequency) {
-        for (int i = 0; i < mChannelFrequency.size(); i++) {
-            if (mChannelFrequency.valueAt(i) == frequency) {
+    public static int getChannel(int frequency)
+    {
+        for (int i = 0; i < mChannelFrequency.size(); i++)
+        {
+            if (mChannelFrequency.valueAt(i) == frequency)
+            {
                 return mChannelFrequency.keyAt(i);
             }
         }

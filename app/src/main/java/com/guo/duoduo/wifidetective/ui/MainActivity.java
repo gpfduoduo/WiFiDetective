@@ -15,8 +15,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.guo.duoduo.wifidetective.R;
+import com.guo.duoduo.wifidetective.ui.view.PingActivity;
 import com.guo.duoduo.wifidetective.ui.view.StatusBarCompat;
 import com.guo.duoduo.wifidetective.util.NetworkUtil;
 
@@ -77,10 +79,30 @@ public class MainActivity extends AppCompatActivity
                                 startActivity(new Intent(MainActivity.this,
                                     WiFiScanActivity.class));
                                 break;
+                            case R.id.nav_tool_ping :
+                                startActivity(new Intent(MainActivity.this,
+                                    PingActivity.class));
+                                break;
                         }
                         return true;
                     }
                 });
+    }
+
+    public void doBtnAction(View view)
+    {
+        switch (view.getId())
+        {
+            case R.id.btn_device_scan :
+                startActivity(new Intent(MainActivity.this, DeviceScanActivity.class));
+                break;
+            case R.id.btn_wifi_scan :
+                startActivity(new Intent(MainActivity.this, WiFiScanActivity.class));
+                break;
+            case R.id.id_tv_content :
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                break;
+        }
     }
 
     @Override

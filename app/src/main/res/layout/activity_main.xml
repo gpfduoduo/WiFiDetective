@@ -20,14 +20,40 @@
             android:fitsSystemWindows="true"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-        <TextView
-            android:id="@+id/id_tv_content"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:text="@string/main_slide_to_action"
-            android:textSize="30sp"/>
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_wifi_scan"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:onClick="doBtnAction"
+                android:text="@string/wifi_scan"/>
+
+            <Button
+                android:id="@+id/btn_device_scan"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:onClick="doBtnAction"
+                android:text="@string/device_scan"/>
+
+            <TextView
+                android:id="@+id/id_tv_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:clickable="true"
+                android:gravity="center"
+                android:onClick="doBtnAction"
+                android:text="@string/main_slide_to_action"
+                android:textSize="30sp"/>
+        </LinearLayout>
     </LinearLayout>
 
     <android.support.design.widget.NavigationView

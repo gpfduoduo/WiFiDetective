@@ -20,11 +20,11 @@ import com.guo.duoduo.wifidetective.R;
 import com.guo.duoduo.wifidetective.core.devicescan.DeviceScanManager;
 import com.guo.duoduo.wifidetective.core.devicescan.DeviceScanResult;
 import com.guo.duoduo.wifidetective.core.devicescan.IP_MAC;
-import com.guo.duoduo.wifidetective.core.devicescan.Manufacture;
 import com.guo.duoduo.wifidetective.ui.adapter.DeviceScanAdapter;
 import com.guo.duoduo.wifidetective.ui.view.DividerDecoration;
 import com.guo.duoduo.wifidetective.ui.view.StatusBarCompat;
 import com.guo.duoduo.wifidetective.util.NetworkUtil;
+import com.guo.duoduo.wifidetective.util.ToastUtils;
 
 
 public class DeviceScanActivity extends BaseActivity implements OnProgressBarListener
@@ -42,6 +42,12 @@ public class DeviceScanActivity extends BaseActivity implements OnProgressBarLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_scan);
 
+        if (!NetworkUtil.isWifiConnected(this))
+        {
+            ToastUtils.showTextToast(this, getString(R.string.connect_wifi_please));
+            finish();
+            return;
+        }
         StatusBarCompat.compat(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
