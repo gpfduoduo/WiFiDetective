@@ -20,5 +20,7 @@
 ##效果图
 ![image](https://github.com/gpfduoduo/WiFiDetective/blob/master/gif/wifidetective.gif "效果图")
 ##引用库
-1 进度条来自代码家  (暂时没有实际作用，只是界面）      
+* 进度条来自代码家  (暂时没有实际作用，只是界面）      
 https://github.com/daimajia/NumberProgressBar
+* android设备实现沉浸式菜单   来自鸿洋  
+https://github.com/hongyangAndroid/ColorfulStatusBar
