@@ -13,7 +13,8 @@
 * android如何读取arp表
 * android下如何通过ip获取mac地址
 * android下如何通过ip获取部分设备的名称（NetBios service)
-* android下如何通过mac地址获取设备的厂商
+* android下如何通过mac地址获取设备的厂商  
+以上的这些你通过阅读代码就可以得到。请关注……谢谢……
 ##引用库
-1 进度条来自代码家  (暂时没有实际作用，只是界面）
+1 进度条来自代码家  (暂时没有实际作用，只是界面）  
 https://github.com/daimajia/NumberProgressBar
