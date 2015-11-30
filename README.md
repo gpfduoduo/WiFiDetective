@@ -18,6 +18,8 @@
 以上的这些你通过阅读代码就可以得到。请关注……谢谢……    
 
 ##效果图
+![image](https://github.com/gpfduoduo/WiFiDetective/blob/master/gif/screenshort.png)   
+![image](https://github.com/gpfduoduo/WiFiDetective/blob/master/gif/wifi_scan.png)  
 ![image](https://github.com/gpfduoduo/WiFiDetective/blob/master/gif/wifidetective.gif "效果图")
 ##引用库
 * 进度条来自代码家  (暂时没有实际作用，只是界面）      
