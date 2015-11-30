@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.guo.duoduo.wifidetective.R;
-import com.guo.duoduo.wifidetective.ui.view.PingActivity;
 import com.guo.duoduo.wifidetective.ui.view.StatusBarCompat;
 import com.guo.duoduo.wifidetective.util.NetworkUtil;
 

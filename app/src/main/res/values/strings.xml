@@ -20,4 +20,8 @@
     <string name="unknown">未知名称</string>
     <string name="unknown_manufacture">未知厂商</string>
     <string name="title_activity_ping">Ping</string>
+    <string name="ping_hint">请输入要Ping的设备IP地址</string>
+    <string name="btn_ping">开始</string>
+    <string name="input_ip_please">请输入对端设备的IP地址</string>
+    <string name="ping_fail">该IP不通</string>
 </resources>

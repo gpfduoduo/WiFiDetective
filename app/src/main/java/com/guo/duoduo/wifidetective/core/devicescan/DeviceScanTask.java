@@ -1,14 +1,7 @@
 package com.guo.duoduo.wifidetective.core.devicescan;
 
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.SocketChannel;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,6 +10,7 @@ import com.guo.duoduo.wifidetective.R;
 import com.guo.duoduo.wifidetective.entity.DeviceInfo;
 import com.guo.duoduo.wifidetective.ui.MainApplication;
 import com.guo.duoduo.wifidetective.util.Constant;
+import com.guo.duoduo.wifidetective.util.NetworkUtil;
 
 
 /**
@@ -51,7 +45,7 @@ public class DeviceScanTask
     {
         public void run()
         {
-            if (isPingOk(mIpMac.mIp) || isAnyPortOk())
+            if (NetworkUtil.isPingOk(mIpMac.mIp) || NetworkUtil.isAnyPortOk(mIpMac.mIp))
             {
                 Log.e(tag, "the device is in wifi : " + mIpMac.toString());
                 String manufacture = parseHostInfo(mIpMac.mMac); //解析机器名称
@@ -98,66 +92,4 @@ public class DeviceScanTask
             MainApplication.getInstance().getApplicationContext());
     }
 
-    private boolean isPingOk(String ip)
-    {
-        try
-        {
-            Process p = Runtime.getRuntime().exec("/system/bin/ping -c 10 -w 4 " + ip);
-            if (p == null)
-            {
-                return false;
-            }
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                p.getInputStream()));
-            String line;
-            while ((line = in.readLine()) != null)
-            {
-                if (line.contains("bytes from"))
-                {
-                    return true;
-                }
-            }
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-
-    private boolean isAnyPortOk()
-    {
-        int portArray[] = {80, 135, 137, 139, 8081, 3389, 3511, 3526, 62078};
-
-        Selector selector;
-        try
-        {
-            selector = Selector.open();
-            for (int i = 0; i < portArray.length; i++)
-            {
-                SocketChannel channel = SocketChannel.open();
-                SocketAddress address = new InetSocketAddress(mIpMac.mIp, portArray[i]);
-                channel.configureBlocking(false);
-                channel.connect(address);
-                channel.register(selector, SelectionKey.OP_CONNECT, address);
-                if (selector.select(1500) != 0)
-                {
-                    selector.close();
-                    return true;
-                }
-                else
-                {
-                    selector.close();
-                    return false;
-                }
-            }
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        return false;
-    }
 }

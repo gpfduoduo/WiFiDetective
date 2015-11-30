@@ -38,7 +38,7 @@
             android:label="@string/title_activity_hot_spot"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".ui.view.PingActivity"
+            android:name=".ui.PingActivity"
             android:label="@string/title_activity_ping">
         </activity>
     </application>

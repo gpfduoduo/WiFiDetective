@@ -1,12 +1,20 @@
 package com.guo.duoduo.wifidetective.util;
 
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.NetworkInterface;
+import java.net.SocketAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.ByteOrder;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -291,4 +299,111 @@ public class NetworkUtil
         return -1;
     }
 
+    /**
+     * 是否ping通
+     * 
+     * @param ip
+     * @return
+     */
+    public static boolean isPingOk(String ip)
+    {
+        try
+        {
+            Process p = Runtime.getRuntime().exec("/system/bin/ping -c 10 -w 4 " + ip);
+            if (p == null)
+            {
+                return false;
+            }
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                p.getInputStream()));
+            String line;
+            while ((line = in.readLine()) != null)
+            {
+                if (line.contains("bytes from"))
+                {
+                    return true;
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public static String ping(String ip, String count)
+    {
+        String result = "";
+        try
+        {
+            Process p = Runtime.getRuntime().exec(
+                "/system/bin/ping -c " + count + " -w 4 " + ip);
+            if (p == null)
+            {
+                return result;
+            }
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                p.getInputStream()));
+            String line;
+            while ((line = in.readLine()) != null)
+            {
+                if (line.contains("bytes from"))
+                {
+                    Log.d(tag, "ping result = " + line);
+                    result += line + "\n";
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return result;
+
+    }
+
+    /**
+     * 该ip的端口某些端口是否打开
+     * 
+     * @param ip
+     * @return
+     */
+    public static boolean isAnyPortOk(String ip)
+    {
+        int portArray[] = {80, 135, 137, 139, 8081, 3389, 3511, 3526, 62078};
+
+        Selector selector;
+        try
+        {
+            selector = Selector.open();
+            for (int i = 0; i < portArray.length; i++)
+            {
+                SocketChannel channel = SocketChannel.open();
+                SocketAddress address = new InetSocketAddress(ip, portArray[i]);
+                channel.configureBlocking(false);
+                channel.connect(address);
+                channel.register(selector, SelectionKey.OP_CONNECT, address);
+                if (selector.select(1500) != 0)
+                {
+                    selector.close();
+                    return true;
+                }
+                else
+                {
+                    selector.close();
+                    return false;
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

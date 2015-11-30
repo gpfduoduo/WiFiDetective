@@ -8,6 +8,34 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.guo.duoduo.wifidetective.ui.view.PingActivity">
+    tools:context=".ui.PingActivity">
 
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/edit_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:hint="@string/ping_hint"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_ping"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/input_layout"
+        android:layout_marginTop="20dp"
+        android:onClick="doBtnAction"
+        android:text="@string/btn_ping"/>
+
+    <TextView
+        android:id="@+id/ping_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_ping"
+        android:layout_marginTop="20dp"/>
 </RelativeLayout>
