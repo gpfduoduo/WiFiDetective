@@ -8,20 +8,33 @@
 ### WiFi扫描
 注册android的广播，实现监听即可。
 ### 设备扫描
-关键技术
-* android下如何进行ping操作
-* android下如何判断端口是否打开
-* android如何读取arp表
-* android下如何通过ip获取mac地址
-* android下如何通过ip获取部分设备的名称（NetBios service)
-* android下如何通过mac地址获取设备的厂商     
-以上的这些你通过阅读代码就可以得到。请关注……谢谢……    
+**关键技术**  
+1. android下如何进行ping操作  
+2. android下如何进行端口的扫描工作  
+3. android下如何判断端口是否打开  
+4. android如何读取arp表  
+5. android下如何通过ip获取mac地址  
+6. android下如何通过ip获取部分设备的名称（NetBios service)    
+7. android下如何通过mac地址获取设备的厂商       
+以上的这些你通过阅读代码就可以得到。请关注……谢谢……     
+
+**业界常用的基本端口信息如下所示：**  
+1. 22 linux ssh端口  
+2. 80和8081 http 端口  
+3. 135 远程打开对方的telnet服务器  
+4. 137 在局域网中提供计算机的名字或OP地址查询服务，一般安装了NetBIOS协议后，就会自动开放  
+5. 139 Windows获得NetBIOS/SMB服务  
+6. 445 局域网中文件的共享端口  
+7. 3389 远程桌面服务端口  
+8. 5555 Android adb 默认连接端口  
+9. 62078 Apple的一个端口
 
 ##效果图
-![image](https://github.com/gpfduoduo/WiFiDetective/blob/master/gif/screenshort.png)   
-![image](https://github.com/gpfduoduo/WiFiDetective/blob/master/gif/wifi_scan.png)  
-![image](https://github.com/gpfduoduo/WiFiDetective/blob/master/gif/wifidetective.gif "效果图")
-##引用库
+![image](gif/wifidetective.gif "效果图")
+![image](gif/screenshort.png)   
+![image](gif/wifi_scan.png)  
+
+##Thanks
 * 进度条来自代码家  (暂时没有实际作用，只是界面）      
 https://github.com/daimajia/NumberProgressBar
 * android设备实现沉浸式菜单   来自鸿洋  
