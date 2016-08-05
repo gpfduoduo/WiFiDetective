@@ -11,11 +11,11 @@ import android.util.SparseArray;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.DatagramSocket;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.NetworkInterface;
-import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -342,38 +342,40 @@ public class NetworkUtil {
      * 139 Windows获得NetBIOS/SMB服务
      * 445 局域网中文件的共享端口
      * 3389 远程桌面服务端口
-     * 5555 Android adb 默认连接端口
+     * 1900 ssdp协议
+     * 5351 AppleBonjour、回到我的 Mac
+     * 5353 Apple Bonjour、AirPlay、家庭共享、打印机查找、回到我的 Mac
      * 62078 Apple的一个端口
+     * see link{https://support.apple.com/zh-cn/HT202944}
      */
     public static boolean isAnyPortOk(String ip) {
-        int portArray[] = { 22, 80, 135, 137, 139, 445, 3389, 3511, 3526, 5555,
-                8081, 62078 };
-
+        int portArray[] = { 22, 80, 135, 137, 139, 445, 3389, 4253, 1034, 1900,
+                993, 5353, 5351, 62078 };
         Selector selector;
         for (int i = 0; i < portArray.length; i++) {
             try {
                 Log.d(tag, "is any port ok ip = " + ip + " port =" +
                         portArray[i]);
-
+                //tcp port detection
                 selector = Selector.open();
                 SocketChannel channel = SocketChannel.open();
                 SocketAddress address = new InetSocketAddress(ip, portArray[i]);
                 channel.configureBlocking(false);
                 channel.connect(address);
                 channel.register(selector, SelectionKey.OP_CONNECT, address);
-                if (selector.select(1500) != 0) {
-                    Log.d(tag, ip + " port " + portArray[i] + " is ok");
+                if (selector.select(500) != 0) {
+                    Log.d(tag, ip + " port " + portArray[i] + " tcp is ok");
                     selector.close();
                     return true;
                 }
                 else {
                     selector.close();
-                    Socket socket = new Socket();
-                    SocketAddress socketAddress = new InetSocketAddress(ip,
-                            portArray[i]);
-                    socket.connect(socketAddress, 50);
-                    socket.close();
-                    Log.d(tag, ip + " port " + portArray[i] + " is ok");
+                    //udp port detection
+                    DatagramSocket connection = new DatagramSocket();
+                    connection.setSoTimeout(500);
+                    connection.connect(InetAddress.getByName(ip), portArray[i]);
+                    Log.d(tag, ip + " port " + portArray[i] + " udp is ok");
+                    connection.close();
                     return true;
                 }
             } catch (IOException e) {

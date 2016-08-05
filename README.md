@@ -25,9 +25,7 @@
 5. 139 Windows获得NetBIOS/SMB服务  
 6. 445 局域网中文件的共享端口  
 7. 3389 远程桌面服务端口  
-8. 5555 Android adb 默认连接端口  
-9. 62078 Apple的一个端口
-
+8. 具体的苹果接口的端口使用情况见：[Apple 软件产品所使用的 TCP 和 UDP 端口](https://support.apple.com/zh-cn/HT202944) 
 ##效果图
 ![image](gif/wifidetective.gif "效果图")
 ![image](gif/screenshort.png)   
