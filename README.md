@@ -10,12 +10,11 @@
 ### 设备扫描
 **关键技术**  
 1. android下如何进行ping操作  
-2. android下如何进行端口的扫描工作  
-3. android下如何判断端口是否打开  
-4. android如何读取arp表  
-5. android下如何通过ip获取mac地址  
-6. android下如何通过ip获取部分设备的名称（NetBios service)    
-7. android下如何通过mac地址获取设备的厂商       
+2. android下如何判断端口是否打开  
+3. android如何读取arp表  
+4. android下如何通过ip获取mac地址  
+5. android下如何通过ip获取部分设备的名称（NetBios service)    
+6. android下如何通过mac地址获取设备的厂商  设备的Mac地址都是官方有国际官方组织的，通过这个你可以查到不同设备mac地址段，从而可以得到不同的 厂商信息。       
 以上的这些你通过阅读代码就可以得到。请关注……谢谢……     
 
 **业界常用的基本端口信息如下所示：**  
