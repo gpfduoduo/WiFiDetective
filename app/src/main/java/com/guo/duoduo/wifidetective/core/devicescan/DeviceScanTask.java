@@ -39,7 +39,7 @@ public class DeviceScanTask {
 
     private class DeviceScanRunnable implements Runnable {
         public void run() {
-            if (/*NetworkUtil.isPingOk(mIpMac.mIp) ||*/
+            if (NetworkUtil.isPingOk(mIpMac.mIp) ||
                     NetworkUtil.isAnyPortOk(mIpMac.mIp)) {
                 String manufacture = parseHostInfo(mIpMac.mMac); //解析机器名称
                 Log.e(tag, "the device is in wifi : " + mIpMac.toString() + "" +

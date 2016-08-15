@@ -11,7 +11,6 @@ import android.util.SparseArray;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.DatagramSocket;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -354,7 +353,7 @@ public class NetworkUtil {
         Selector selector;
         for (int i = 0; i < portArray.length; i++) {
             try {
-                Log.d(tag, "is any port ok ip = " + ip + " port =" +
+                Log.d(tag, "is any port ok ? ip = " + ip + " port =" +
                         portArray[i]);
                 //tcp port detection
                 selector = Selector.open();
@@ -364,22 +363,23 @@ public class NetworkUtil {
                 channel.connect(address);
                 channel.register(selector, SelectionKey.OP_CONNECT, address);
                 if (selector.select(500) != 0) {
-                    Log.d(tag, ip + " port " + portArray[i] + " tcp is ok");
+                    Log.d(tag, ip + "is any port ok port ? " + portArray[i] +
+                            " tcp is ok");
                     selector.close();
                     return true;
                 }
                 else {
                     selector.close();
-                    //udp port detection
-                    DatagramSocket connection = new DatagramSocket();
-                    connection.setSoTimeout(500);
-                    connection.connect(InetAddress.getByName(ip), portArray[i]);
-                    Log.d(tag, ip + " port " + portArray[i] + " udp is ok");
-                    connection.close();
-                    return true;
+                    //Socket socket = new Socket();
+                    //SocketAddress socketAddress = new InetSocketAddress(ip,
+                    //        portArray[i]);
+                    //socket.connect(socketAddress, 500);
+                    //Log.d(tag, ip + "is any port ok ? port " + portArray[i] +
+                    //        " tcp is ok");
+                    //socket.close();
+                    continue;
                 }
             } catch (IOException e) {
-                e.printStackTrace();
                 Log.e(tag, e.getMessage().toString());
             }
         }
